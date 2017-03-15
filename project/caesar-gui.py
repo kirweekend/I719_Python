@@ -4,7 +4,6 @@ import webbrowser
 class Application(Frame):
 
 	def __init__(self, master):
-		""" Initialize the Frame """
 		Frame.__init__(self, master)
 		self.grid()
 		self.create_widgets()
@@ -44,7 +43,7 @@ class Application(Frame):
 		self.key.grid(row = 7, column = 0, padx = 22, sticky = W)
 
 		# Submit
-		self.submit_button = Button(self, text = "Submit")
+		self.submit_button = Button(self, text = "Submit", command = self.caesar)
 		self.submit_button.grid(row = 8, column = 0, padx = 22, sticky = W)
 
 		# Result label
@@ -58,10 +57,48 @@ class Application(Frame):
 		#Github label
 		self.github = Label(self, text = "Fork it at http://github.com/kirweekend", cursor="hand2")
 		self.github.bind("<Button-1>", self.githubLink)
-		self.github.grid(row = 11, column = 0, columnspan = 3, padx = 22, sticky = W)
+		self.github.grid(row = 11, column = 0, columnspan = 3, padx = 23, sticky = W)
 
 	def githubLink(self, event):
 		webbrowser.open_new(r"http://github.com/kirweekend")
+
+	def caesar(self):
+
+		m = self.message.get()
+		k = int(self.key.get())
+
+		if (self.var1.get())== 2:
+			k = -k
+
+		# Empty text container
+		text = ''
+
+		for symbol in m:
+
+			if symbol.isalpha():
+				num = ord(symbol) + k
+
+				if symbol.isupper():
+					if num > ord('Z'):
+						num -= 26
+					elif num < ord('A'):
+						num += 26
+
+				elif symbol.islower():
+					if num > ord('z'):
+						num -= 26
+					elif num < ord('a'):
+						num += 26
+
+				text  += chr(num)
+			else:
+				text += symbol
+
+		self.result.delete(0.0, END)
+		self.option.deselect()
+		self.result.insert(0.0, text )
+
+		return text
 
 root = Tk()
 root.title("Caesar GUI")
