@@ -3,7 +3,10 @@ import webbrowser
 
 class Application(Frame):
 
-	def __init__(self, master):
+	def __init__(self, master = None):
+		if master == None:
+			pass
+
 		Frame.__init__(self, master)
 		self.grid()
 		self.create_widgets()
@@ -43,7 +46,7 @@ class Application(Frame):
 		self.key.grid(row = 7, column = 0, padx = 22, sticky = W)
 
 		# Submit
-		self.submit_button = Button(self, text = "Submit", command = self.caesar)
+		self.submit_button = Button(self, text = "Submit", command = self.call_caesar)
 		self.submit_button.grid(row = 8, column = 0, padx = 22, sticky = W)
 
 		# Result label
@@ -62,12 +65,15 @@ class Application(Frame):
 	def githubLink(self, event):
 		webbrowser.open_new(r"http://github.com/kirweekend")
 
-	def caesar(self):
-
+	def call_caesar(self):
 		m = self.message.get()
 		k = int(self.key.get())
+		n = self.var1.get()
 
-		if (self.var1.get())== 2:
+		return self.caesar(m, k, n)
+
+	def caesar(self, m, k, n):
+		if n == 2:
 			k = -k
 
 		# Empty text container
@@ -100,8 +106,9 @@ class Application(Frame):
 
 		return text
 
-root = Tk()
-root.title("Caesar GUI")
-root.geometry("370x350+600+300")
-app = Application(root)
-root.mainloop()
+if __name__ == "__main__":
+	root = Tk()
+	root.title("Caesar GUI")
+	root.geometry("370x350+600+300")
+	app = Application(root)
+	root.mainloop()
